@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | IronPhysique Gym</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* --- GLOBAL & THEME --- */
+        :root {
+            --primary: #ff3f34;
+            --dark: #1e272e;
+            --black: #0d0d0d;
+            --white: #ffffff;
+            --gray: #808e9b;
+            --input-bg: #252f38;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body { background-color: var(--black); color: var(--white); overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* --- HEADER --- */
+        header {
+            position: fixed; top: 0; width: 100%; padding: 20px 8%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(13, 13, 13, 0.95); z-index: 1000;
+            border-bottom: 1px solid #222;
+        }
+        .logo { font-family: 'Oswald', sans-serif; font-size: 2rem; font-weight: 700; text-transform: uppercase; }
+        .logo span { color: var(--primary); }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a:hover { color: var(--primary); transition: 0.3s; }
+
+        /* --- BANNER --- */
+        .page-banner {
+            height: 45vh;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1596357395217-80de13130e92?q=80&w=1920&auto=format');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; margin-top: 80px;
+        }
+        .page-banner h1 { font-family: 'Oswald', sans-serif; font-size: 3.5rem; text-transform: uppercase; }
+        .page-banner p { color: var(--primary); font-weight: 600; letter-spacing: 2px; }
+
+        /* --- CONTACT WRAPPER --- */
+        .contact-container {
+            padding: 80px 8%;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 60px;
+        }
+
+        /* LEFT SIDE: INFO */
+        .contact-info h2 {
+            font-family: 'Oswald', sans-serif; font-size: 2.5rem; margin-bottom: 20px;
+        }
+        .contact-info p.desc { color: var(--gray); margin-bottom: 40px; line-height: 1.6; }
+        
+        .info-box { margin-bottom: 30px; display: flex; align-items: flex-start; }
+        .icon-circle {
+            width: 50px; height: 50px; background: var(--dark); border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            color: var(--primary); font-size: 1.2rem; margin-right: 20px; flex-shrink: 0;
+            border: 1px solid #333; transition: 0.3s;
+        }
+        .info-box:hover .icon-circle { background: var(--primary); color: var(--white); }
+        
+        .info-details h4 { font-size: 1.1rem; margin-bottom: 5px; font-weight: 600; }
+        .info-details p { color: var(--gray); font-size: 0.95rem; }
+
+        /* Social Icons */
+        .social-links { margin-top: 40px; }
+        .social-links a {
+            display: inline-block; width: 40px; height: 40px; line-height: 40px;
+            background: var(--dark); text-align: center; border-radius: 50%;
+            margin-right: 10px; transition: 0.3s; color: var(--white);
+        }
+        .social-links a:hover { background: var(--primary); transform: translateY(-3px); }
+
+        /* RIGHT SIDE: FORM */
+        .form-box {
+            background: var(--dark); padding: 40px; border-radius: 10px;
+            border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: #ccc; }
+        
+        .form-control {
+            width: 100%; padding: 15px; background: var(--input-bg);
+            border: 1px solid #333; color: var(--white); border-radius: 5px;
+            font-size: 1rem; outline: none; transition: 0.3s;
+        }
+        .form-control:focus { border-color: var(--primary); background: #2a3640; }
+        
+        textarea.form-control { resize: none; height: 150px; }
+
+        .btn-submit {
+            width: 100%; padding: 15px; background: var(--primary);
+            color: var(--white); border: none; font-size: 1.1rem; font-weight: 700;
+            text-transform: uppercase; cursor: pointer; border-radius: 5px;
+            transition: 0.3s; letter-spacing: 1px;
+        }
+        .btn-submit:hover { background: #d63030; transform: translateY(-2px); }
+
+        /* --- MAP SECTION --- */
+        .map-section { width: 100%; height: 400px; filter: grayscale(100%) invert(90%); }
+        iframe { width: 100%; height: 100%; border: 0; }
+
+        /* --- FAQ SECTION --- */
+        .faq-section { padding: 80px 15%; background: var(--dark); text-align: center; }
+        .faq-section h2 { font-family: 'Oswald', sans-serif; font-size: 2.5rem; margin-bottom: 40px; }
+        
+        .faq-item {
+            background: var(--black); margin-bottom: 15px; padding: 20px;
+            text-align: left; border-left: 3px solid var(--primary); cursor: pointer;
+        }
+        .faq-item h4 { font-size: 1.1rem; display: flex; justify-content: space-between; }
+        .faq-item p { 
+            display: none; margin-top: 15px; color: var(--gray); font-size: 0.95rem; line-height: 1.5; 
+        }
+        .faq-item.active p { display: block; }
+        .faq-item.active i { transform: rotate(180deg); }
+
+        /* --- FOOTER --- */
+        footer { background: #000; padding: 30px; text-align: center; border-top: 1px solid #222; color: var(--gray); }
+
+        /* RESPONSIVE */
+        @media(max-width: 900px) {
+            .contact-container { grid-template-columns: 1fr; }
+            .faq-section { padding: 80px 8%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Iron<span>Physique</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="classes.html">Classes</a></li>
+            <li><a href="membership.html">Membership</a></li>
+            <li><a href="#" style="color: var(--primary);">Contact</a></li>
+        </ul>
+    </header>
+
+    <section class="page-banner">
+        <p>WE ARE HERE FOR YOU</p>
+        <h1>Get In Touch</h1>
+    </section>
+
+    <section class="contact-container">
+        
+        <div class="contact-info">
+            <h2>Let's Talk Fitness</h2>
+            <p class="desc">Have a question about membership plans, personal training, or our facilities? Drop by for a coffee or send us a message. We'd love to hear from you.</p>
+
+            <div class="info-box">
+                <div class="icon-circle"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="info-details">
+                    <h4>Visit Us</h4>
+                    <p>123 Iron Street, Muscle District<br>Los Angeles, CA 90012</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="icon-circle"><i class="fas fa-phone-alt"></i></div>
+                <div class="info-details">
+                    <h4>Call Us</h4>
+                    <p>+1 (555) 123-4567<br>+1 (555) 987-6543</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="icon-circle"><i class="fas fa-envelope"></i></div>
+                <div class="info-details">
+                    <h4>Email Us</h4>
+                    <p>support@ironphysique.com<br>careers@ironphysique.com</p>
+                </div>
+            </div>
+
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+
+        <div class="contact-form">
+            <div class="form-box">
+                <form id="contactForm">
+                    <div class="input-group">
+                        <label>Full Name</label>
+                        <input type="text" class="form-control" placeholder="John Doe" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Email Address</label>
+                        <input type="email" class="form-control" placeholder="john@example.com" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Subject</label>
+                        <select class="form-control">
+                            <option>General Inquiry</option>
+                            <option>Membership Pricing</option>
+                            <option>Personal Training</option>
+                            <option>Complaint / Feedback</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Message</label>
+                        <textarea class="form-control" placeholder="How can we help you?" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <div class="map-section">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d423286.27404345275!2d-118.69191921445307!3d34.02016130939095!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c75ddc27da13%3A0xe22fdf6f254608f4!2sLos%20Angeles%2C%20CA!5e0!3m2!1sen!2sus!4v1625687432912!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+
+    <section class="faq-section">
+        <h2>Common Questions</h2>
+        
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <h4>Can I freeze my membership? <i class="fas fa-chevron-down"></i></h4>
+            <p>Yes, you can freeze your membership for up to 3 months per year for medical or travel reasons. Please visit the front desk to apply.</p>
+        </div>
+
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <h4>Do you offer day passes? <i class="fas fa-chevron-down"></i></h4>
+            <p>Absolutely! We offer a 1-day pass for $15, which is fully refundable if you decide to sign up for a monthly membership within 24 hours.</p>
+        </div>
+
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <h4>Are personal trainers included? <i class="fas fa-chevron-down"></i></h4>
+            <p>Personal trainers are an add-on service, although our Premium Membership includes 2 free sessions per month. Ask the front desk for trainer rates.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 IronPhysique Gym. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Form Handling
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.querySelector('.btn-submit');
+            const originalText = btn.innerText;
+            
+            btn.innerText = 'Sending...';
+            btn.style.background = '#44bd32'; // Green success color
+            
+            setTimeout(() => {
+                alert('Message Sent Successfully! We will contact you soon.');
+                this.reset();
+                btn.innerText = originalText;
+                btn.style.background = '#ff3f34'; // Reset to red
+            }, 1500);
+        });
+
+        // FAQ Toggle
+        function toggleFaq(element) {
+            element.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

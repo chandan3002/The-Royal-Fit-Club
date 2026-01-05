@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Admin Dashboard | Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #ff3f34;
+            --secondary: #0fbcf9;
+            --dark: #1e272e;
+            --dark-light: #2c3e50;
+            --text-grey: #808e9b;
+            --white: #ffffff;
+            --shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+            list-style: none;
+        }
+
+        body {
+            background-color: #f1f2f6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 250px;
+            background-color: var(--dark);
+            color: var(--white);
+            position: fixed;
+            height: 100%;
+            transition: 0.3s;
+            z-index: 10;
+        }
+
+        .logo {
+            padding: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .logo span { color: var(--primary); }
+
+        .menu {
+            margin-top: 20px;
+        }
+
+        .menu li a {
+            display: block;
+            padding: 15px 25px;
+            color: var(--text-grey);
+            transition: 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .menu li a:hover, .menu li a.active {
+            color: var(--white);
+            background-color: var(--primary);
+            border-left: 5px solid white;
+        }
+
+        .menu li a i {
+            width: 30px;
+        }
+
+        /* --- MAIN CONTENT --- */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            background-color: #f1f2f6;
+        }
+
+        /* --- HEADER --- */
+        header {
+            background-color: var(--white);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+
+        .header-title h2 { color: var(--dark); }
+        .header-title span { font-size: 0.8rem; color: var(--text-grey); }
+
+        .user-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-wrapper img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .user-wrapper div h4 { font-size: 0.9rem; }
+        .user-wrapper div small { color: var(--text-grey); font-size: 0.75rem; }
+
+        /* --- DASHBOARD CARDS --- */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+
+        .card-single {
+            background-color: var(--white);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        .card-single:hover {
+            transform: translateY(-5px);
+            border-bottom: 4px solid var(--primary);
+        }
+
+        .card-single div:first-child h1 {
+            color: var(--dark);
+            font-size: 2rem;
+        }
+
+        .card-single div:first-child span {
+            color: var(--text-grey);
+            font-size: 0.9rem;
+        }
+
+        .card-single i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            opacity: 0.5;
+        }
+
+        /* --- RECENT ACTIVITY SECTION --- */
+        .recent-grid {
+            padding: 0 30px 30px;
+            display: grid;
+            grid-template-columns: 65% auto;
+            gap: 20px;
+        }
+
+        .card {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .card-header {
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h3 { color: var(--dark); }
+        .card-header button {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .card-body {
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead tr { border-bottom: 1px solid #f0f0f0; }
+        
+        thead td {
+            font-weight: 600;
+            padding: 10px 10px;
+            font-size: 0.9rem;
+        }
+
+        tbody tr td {
+            padding: 15px 10px;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .status {
+            width: 10px;
+            height: 10px;
+            background: red;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .green { background: #2ecc71; }
+        .yellow { background: #f1c40f; }
+
+        /* Trainers List in Dashboard */
+        .trainer-list .trainer {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .trainer img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 960px) {
+            .recent-grid { grid-template-columns: 100%; }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { width: 70px; }
+            .sidebar .logo span, .sidebar .menu li a span { display: none; }
+            .sidebar .logo { font-size: 1rem; padding: 15px 10px; }
+            .menu li a { padding: 15px; text-align: center; }
+            .menu li a i { width: auto; font-size: 1.5rem; }
+            
+            .main-content { margin-left: 70px; }
+            header { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo">
+            <h2>Iron<span>Admin</span></h2>
+        </div>
+        <ul class="menu">
+            <li>
+                <a href="#" class="active">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-users"></i>
+                    <span>Members</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-dumbbell"></i>
+                    <span>Trainers</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Payments</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Reports</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        
+        <header>
+            <div class="header-title">
+                <h2>Overview</h2>
+                <span>Welcome back, Admin</span>
+            </div>
+            
+            <div class="user-wrapper">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100&auto=format" alt="Admin">
+                <div>
+                    <h4>Shivam Sharma</h4>
+                    <small>Super Admin</small>
+                </div>
+            </div>
+        </header>
+
+        <div class="cards">
+            <div class="card-single">
+                <div>
+                    <h1>540</h1>
+                    <span>Total Members</span>
+                </div>
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="card-single">
+                <div>
+                    <h1>75</h1>
+                    <span>New (This Month)</span>
+                </div>
+                <i class="fas fa-user-plus"></i>
+            </div>
+            <div class="card-single">
+                <div>
+                    <h1>12</h1>
+                    <span>Active Trainers</span>
+                </div>
+                <i class="fas fa-dumbbell"></i>
+            </div>
+            <div class="card-single">
+                <div>
+                    <h1>$12k</h1>
+                    <span>Monthly Revenue</span>
+                </div>
+                <i class="fas fa-wallet"></i>
+            </div>
+        </div>
+
+        <div class="recent-grid">
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3>Recent Joiners</h3>
+                    <button>View All <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div class="card-body">
+                    <table width="100%">
+                        <thead>
+                            <tr>
+                                <td>Name</td>
+                                <td>Plan</td>
+                                <td>Status</td>
+                                <td>Date</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Arjun Kumar</td>
+                                <td>Premium</td>
+                                <td><span class="status green"></span> Active</td>
+                                <td>29 Aug 2025</td>
+                            </tr>
+                            <tr>
+                                <td>Priya Singh</td>
+                                <td>Standard</td>
+                                <td><span class="status yellow"></span> Pending</td>
+                                <td>28 Aug 2025</td>
+                            </tr>
+                            <tr>
+                                <td>Rahul Verma</td>
+                                <td>Basic</td>
+                                <td><span class="status green"></span> Active</td>
+                                <td>27 Aug 2025</td>
+                            </tr>
+                            <tr>
+                                <td>Amit Sharma</td>
+                                <td>Premium</td>
+                                <td><span class="status green"></span> Active</td>
+                                <td>26 Aug 2025</td>
+                            </tr>
+                            <tr>
+                                <td>Sneha Gupta</td>
+                                <td>Standard</td>
+                                <td><span class="status green"></span> Active</td>
+                                <td>25 Aug 2025</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Top Trainers</h3>
+                </div>
+                <div class="card-body trainer-list">
+                    <div class="trainer">
+                        <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=100&auto=format" alt="">
+                        <div>
+                            <h4>John Doe</h4>
+                            <small>Bodybuilding</small>
+                        </div>
+                    </div>
+                    <div class="trainer">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=100&auto=format" alt="">
+                        <div>
+                            <h4>Jane Smith</h4>
+                            <small>Yoga & Pilates</small>
+                        </div>
+                    </div>
+                    <div class="trainer">
+                        <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=100&auto=format" alt="">
+                        <div>
+                            <h4>Mike Ross</h4>
+                            <small>Crossfit</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

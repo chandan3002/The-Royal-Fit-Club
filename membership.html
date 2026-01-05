@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership Plans | IronPhysique Gym</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* --- GLOBAL & THEME --- */
+        :root {
+            --primary: #ff3f34;
+            --dark: #1e272e;
+            --black: #0d0d0d;
+            --white: #ffffff;
+            --gray: #808e9b;
+            --card-bg: #151b20;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body { background-color: var(--black); color: var(--white); overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* --- HEADER --- */
+        header {
+            position: fixed; top: 0; width: 100%; padding: 20px 8%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(13, 13, 13, 0.95); z-index: 1000;
+            border-bottom: 1px solid #222;
+        }
+        .logo { font-family: 'Oswald', sans-serif; font-size: 2rem; font-weight: 700; text-transform: uppercase; }
+        .logo span { color: var(--primary); }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a:hover { color: var(--primary); transition: 0.3s; }
+
+        /* --- BANNER --- */
+        .page-banner {
+            height: 50vh;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6), var(--black)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1920&auto=format');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; margin-top: 60px;
+        }
+        .page-banner h1 { font-family: 'Oswald', sans-serif; font-size: 4rem; text-transform: uppercase; margin-bottom: 10px; }
+        .page-banner p { color: var(--primary); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+
+        /* --- PRICING TOGGLE --- */
+        .pricing-controls {
+            text-align: center; margin: 40px 0 20px;
+        }
+        .toggle-container {
+            display: inline-flex; align-items: center; gap: 15px;
+            background: var(--dark); padding: 10px 25px; border-radius: 50px;
+            border: 1px solid #333;
+        }
+        .toggle-label { font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .toggle-label.active { color: var(--white); }
+        .toggle-label.inactive { color: var(--gray); }
+        
+        /* The Switch */
+        .switch {
+            position: relative; display: inline-block; width: 50px; height: 26px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #333; transition: .4s; border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute; content: ""; height: 18px; width: 18px;
+            left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--primary); }
+        input:checked + .slider:before { transform: translateX(24px); }
+
+        /* --- PRICING CARDS --- */
+        .pricing-section { padding: 20px 8% 80px; }
+        .pricing-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px; align-items: center;
+        }
+
+        .price-card {
+            background: var(--card-bg); padding: 40px 30px; border-radius: 15px;
+            text-align: center; border: 1px solid #222; position: relative;
+            transition: 0.4s ease; overflow: hidden;
+        }
+        .price-card:hover { transform: translateY(-10px); box-shadow: 0 10px 30px rgba(255, 63, 52, 0.15); border-color: var(--primary); }
+
+        /* Recommended Card Style */
+        .price-card.recommended {
+            border: 2px solid var(--primary); background: #1a1a1a; transform: scale(1.05); z-index: 2;
+        }
+        .price-card.recommended:hover { transform: scale(1.08); }
+        
+        .ribbon {
+            position: absolute; top: 15px; right: -30px; transform: rotate(45deg);
+            background: var(--primary); color: white; width: 120px; padding: 5px 0;
+            font-size: 0.75rem; font-weight: 700; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .plan-name { font-family: 'Oswald', sans-serif; font-size: 1.5rem; color: var(--gray); margin-bottom: 20px; }
+        .plan-price { font-family: 'Oswald', sans-serif; font-size: 3.5rem; color: var(--white); margin-bottom: 10px; }
+        .plan-price span { font-size: 1rem; color: var(--gray); font-family: 'Montserrat', sans-serif; }
+        
+        .plan-features { margin: 30px 0; text-align: left; }
+        .plan-features li { margin-bottom: 15px; color: #ccc; font-size: 0.95rem; display: flex; align-items: center; }
+        .plan-features li i { margin-right: 12px; font-size: 1rem; }
+        .plan-features li i.check { color: var(--primary); }
+        .plan-features li i.cross { color: #444; }
+
+        .btn-plan {
+            display: block; width: 100%; padding: 15px; border-radius: 30px;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+            transition: 0.3s; cursor: pointer; border: 2px solid var(--white);
+            background: transparent; color: var(--white);
+        }
+        .btn-plan:hover { background: var(--white); color: var(--black); }
+
+        .price-card.recommended .btn-plan {
+            background: var(--primary); border-color: var(--primary);
+        }
+        .price-card.recommended .btn-plan:hover {
+            background: transparent; color: var(--primary);
+        }
+
+        /* --- BENEFITS SECTION --- */
+        .benefits-section {
+            background-color: var(--dark); padding: 80px 8%; text-align: center;
+        }
+        .benefits-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-top: 50px;
+        }
+        .benefit-item i { font-size: 3rem; color: var(--primary); margin-bottom: 20px; }
+        .benefit-item h3 { font-family: 'Oswald', sans-serif; font-size: 1.3rem; margin-bottom: 15px; }
+        .benefit-item p { color: var(--gray); font-size: 0.9rem; line-height: 1.6; }
+
+        /* --- FOOTER --- */
+        footer { background: #000; padding: 30px; text-align: center; border-top: 1px solid #222; color: var(--gray); font-size: 0.9rem; }
+
+        /* RESPONSIVE */
+        @media(max-width: 900px) {
+            .price-card.recommended { transform: scale(1); margin: 20px 0; }
+            .page-banner h1 { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Iron<span>Physique</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="classes.html">Classes</a></li>
+            <li><a href="#" style="color: var(--primary);">Membership</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </header>
+
+    <div class="page-banner">
+        <p>INVEST IN YOURSELF</p>
+        <h1>Membership Plans</h1>
+    </div>
+
+    <div class="pricing-controls">
+        <div class="toggle-container">
+            <span class="toggle-label active" id="labelMonthly">Monthly</span>
+            <label class="switch">
+                <input type="checkbox" id="pricingToggle" onchange="togglePricing()">
+                <span class="slider"></span>
+            </label>
+            <span class="toggle-label inactive" id="labelYearly">Yearly <small style="color: var(--primary);">(Save 20%)</small></span>
+        </div>
+    </div>
+
+    <section class="pricing-section">
+        <div class="pricing-grid">
+            
+            <div class="price-card">
+                <h3 class="plan-name">Basic</h3>
+                <h2 class="plan-price" id="price-basic">$29<span>/mo</span></h2>
+                <ul class="plan-features">
+                    <li><i class="fas fa-check check"></i> Gym Floor Access</li>
+                    <li><i class="fas fa-check check"></i> Locker Access</li>
+                    <li><i class="fas fa-check check"></i> 1 Free Induction Session</li>
+                    <li><i class="fas fa-times cross"></i> Group Classes</li>
+                    <li><i class="fas fa-times cross"></i> Sauna & Spa</li>
+                    <li><i class="fas fa-times cross"></i> Personal Trainer</li>
+                </ul>
+                <button class="btn-plan">Choose Basic</button>
+            </div>
+
+            <div class="price-card recommended">
+                <div class="ribbon">POPULAR</div>
+                <h3 class="plan-name">Standard</h3>
+                <h2 class="plan-price" id="price-standard">$49<span>/mo</span></h2>
+                <ul class="plan-features">
+                    <li><i class="fas fa-check check"></i> Gym Floor Access</li>
+                    <li><i class="fas fa-check check"></i> Locker Access</li>
+                    <li><i class="fas fa-check check"></i> Unlimited Group Classes</li>
+                    <li><i class="fas fa-check check"></i> Guest Pass (1x/month)</li>
+                    <li><i class="fas fa-times cross"></i> Sauna & Spa</li>
+                    <li><i class="fas fa-times cross"></i> Personal Trainer</li>
+                </ul>
+                <button class="btn-plan">Choose Standard</button>
+            </div>
+
+            <div class="price-card">
+                <h3 class="plan-name">Premium</h3>
+                <h2 class="plan-price" id="price-premium">$89<span>/mo</span></h2>
+                <ul class="plan-features">
+                    <li><i class="fas fa-check check"></i> All-Area Access</li>
+                    <li><i class="fas fa-check check"></i> Unlimited Group Classes</li>
+                    <li><i class="fas fa-check check"></i> Sauna, Steam & Spa</li>
+                    <li><i class="fas fa-check check"></i> Nutrition Plan App</li>
+                    <li><i class="fas fa-check check"></i> Personal Trainer (2x/mo)</li>
+                    <li><i class="fas fa-check check"></i> Free Merchandise</li>
+                </ul>
+                <button class="btn-plan">Choose Premium</button>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="benefits-section">
+        <h2 style="font-family: 'Oswald', sans-serif; font-size: 2.5rem; text-transform: uppercase;">Why <span style="color:var(--primary)">Join Us?</span></h2>
+        
+        <div class="benefits-grid">
+            <div class="benefit-item">
+                <i class="fas fa-dumbbell"></i>
+                <h3>Top Equipment</h3>
+                <p>We use only the best Hammer Strength and Life Fitness equipment to ensure a safe and effective workout.</p>
+            </div>
+            <div class="benefit-item">
+                <i class="fas fa-users"></i>
+                <h3>Community</h3>
+                <p>Join a supportive tribe of like-minded individuals. We organize monthly challenges and social events.</p>
+            </div>
+            <div class="benefit-item">
+                <i class="fas fa-clock"></i>
+                <h3>24/7 Access</h3>
+                <p>Your fitness shouldn't have a curfew. Access the gym anytime, day or night, with our secure key-card system.</p>
+            </div>
+            <div class="benefit-item">
+                <i class="fas fa-shower"></i>
+                <h3>Luxury Amenities</h3>
+                <p>Relax after your workout in our steam rooms, saunas, and private changing suites with towel service.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 IronPhysique Gym. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function togglePricing() {
+            const toggle = document.getElementById('pricingToggle');
+            const priceBasic = document.getElementById('price-basic');
+            const priceStandard = document.getElementById('price-standard');
+            const pricePremium = document.getElementById('price-premium');
+            
+            const labelMonthly = document.getElementById('labelMonthly');
+            const labelYearly = document.getElementById('labelYearly');
+
+            if(toggle.checked) {
+                // YEARLY PRICES (Approx 20% discount calculation)
+                priceBasic.innerHTML = '$290<span>/yr</span>';
+                priceStandard.innerHTML = '$490<span>/yr</span>';
+                pricePremium.innerHTML = '$890<span>/yr</span>';
+                
+                labelMonthly.classList.remove('active');
+                labelMonthly.classList.add('inactive');
+                labelYearly.classList.add('active');
+                labelYearly.classList.remove('inactive');
+            } else {
+                // MONTHLY PRICES
+                priceBasic.innerHTML = '$29<span>/mo</span>';
+                priceStandard.innerHTML = '$49<span>/mo</span>';
+                pricePremium.innerHTML = '$89<span>/mo</span>';
+
+                labelMonthly.classList.add('active');
+                labelMonthly.classList.remove('inactive');
+                labelYearly.classList.remove('active');
+                labelYearly.classList.add('inactive');
+            }
+        }
+    </script>
+</body>
+</html>

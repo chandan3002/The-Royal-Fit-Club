@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Login | Fitness First Clone</title>
+    <style>
+        /* --- 1. GLOBAL VARIABLES & RESET --- */
+        :root {
+            --brand-red: #da291c;
+            --brand-navy: #002d72;
+            --text-dark: #2d2d2d;
+            --text-light: #666666;
+            --bg-light: #f4f4f4;
+            --white: #ffffff;
+            --input-bg: #f9f9f9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            background-color: var(--white);
+            overflow: hidden; /* Prevent scrolling on desktop */
+        }
+
+        /* --- 2. LEFT SIDE: IMAGE BANNER --- */
+        .login-banner {
+            flex: 1.2; /* Takes up slightly more than half space */
+            background: linear-gradient(rgba(0,45,114,0.6), rgba(0,45,114,0.4)), 
+                        url('https://images.unsplash.com/photo-1534258936925-c48947387603?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 60px;
+            color: var(--white);
+        }
+
+        .banner-text h2 {
+            font-size: 3rem;
+            text-transform: uppercase;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .banner-text p {
+            font-size: 1.1rem;
+            max-width: 400px;
+            opacity: 0.9;
+        }
+
+        /* --- 3. RIGHT SIDE: LOGIN FORM --- */
+        .login-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            background-color: var(--white);
+            position: relative;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        /* Logo Styling */
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--brand-navy);
+            text-transform: uppercase;
+            font-style: italic;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 40px;
+        }
+        .logo span { color: var(--brand-red); }
+
+        .form-header h1 {
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+
+        /* Input Fields */
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--brand-navy);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #eee;
+            border-radius: 6px;
+            background-color: var(--input-bg);
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--brand-navy);
+            background-color: var(--white);
+        }
+
+        /* Show Password Toggle */
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 38px;
+            cursor: pointer;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            user-select: none;
+        }
+
+        /* Form Actions (Remember Me / Forgot PW) */
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+
+        .forgot-link {
+            color: var(--brand-red);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .forgot-link:hover { text-decoration: underline; }
+
+        /* Login Button */
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--brand-red);
+            color: var(--white);
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-login:hover {
+            background-color: #b30000;
+        }
+
+        /* Footer Links */
+        .login-footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .login-footer a {
+            color: var(--brand-navy);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .back-home {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .back-home:hover { color: var(--brand-red); }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .login-banner { display: none; } /* Hide image on tablet/mobile */
+            .login-panel { background-color: var(--bg-light); }
+            .form-container {
+                background: var(--white);
+                padding: 40px;
+                border-radius: 10px;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-banner">
+        <div class="banner-text">
+            <h2>Train With<br>Purpose</h2>
+            <p>Access your workout plans, book classes, and track your progress.</p>
+        </div>
+    </div>
+
+    <div class="login-panel">
+        <a href="train-with-us.html" class="back-home">&larr; Back to Home</a>
+
+        <div class="form-container">
+            <a href="#" class="logo">Fitness<span>First</span></a>
+            
+            <div class="form-header">
+                <h1>Welcome Back</h1>
+                <p>Please enter your details to sign in.</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="email">Email Address or Member ID</label>
+                    <input type="text" id="email" class="form-input" placeholder="Enter your email" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
+                    <span class="toggle-password" id="togglePassword">Show</span>
+                </div>
+
+                <div class="form-actions">
+                    <label class="remember-me">
+                        <input type="checkbox"> Remember me
+                    </label>
+                    <a href="#" class="forgot-link">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="btn-login">Sign In</button>
+            </form>
+
+            <div class="login-footer">
+                Don't have an account yet? <a href="#">Join Now</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Toggle Password Visibility
+        const togglePassword = document.querySelector('#togglePassword');
+        const passwordInput = document.querySelector('#password');
+
+        togglePassword.addEventListener('click', function (e) {
+            // Toggle the type attribute
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            // Toggle the text
+            this.textContent = type === 'password' ? 'Show' : 'Hide';
+        });
+
+        // 2. Handle Login Submission
+        const loginForm = document.getElementById('loginForm');
+
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const btn = document.querySelector('.btn-login');
+            const originalText = btn.innerText;
+
+            // Simulate Loading
+            btn.innerText = 'Signing In...';
+            btn.style.opacity = '0.7';
+
+            setTimeout(() => {
+                // Determine where to redirect based on user (Mock Logic)
+                const email = document.getElementById('email').value;
+                
+                alert(`Welcome back, ${email}! Redirecting to your dashboard...`);
+                
+                // Redirect to the home page or dashboard
+                // window.location.href = 'train-with-us.html'; 
+                
+                // Reset Button
+                btn.innerText = originalText;
+                btn.style.opacity = '1';
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
