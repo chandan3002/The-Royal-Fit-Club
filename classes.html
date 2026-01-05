@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classes | IronPhysique Gym</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* --- GLOBAL STYLES --- */
+        :root {
+            --primary: #ff3f34;
+            --dark: #1e272e;
+            --black: #0d0d0d;
+            --white: #ffffff;
+            --gray: #808e9b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body { background-color: var(--black); color: var(--white); }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* --- HEADER (Consistent) --- */
+        header {
+            position: fixed;
+            top: 0; width: 100%; padding: 20px 8%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(13, 13, 13, 0.95); z-index: 1000;
+            border-bottom: 1px solid #222;
+        }
+        .logo { font-family: 'Oswald', sans-serif; font-size: 2rem; font-weight: 700; color: var(--white); text-transform: uppercase; }
+        .logo span { color: var(--primary); }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a:hover { color: var(--primary); }
+
+        /* --- PAGE BANNER --- */
+        .page-banner {
+            height: 50vh;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=1920&auto=format');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; margin-top: 80px;
+        }
+        .page-banner h1 { font-family: 'Oswald', sans-serif; font-size: 4rem; text-transform: uppercase; }
+        .page-banner p { color: var(--primary); letter-spacing: 2px; font-weight: 600; }
+
+        /* --- FILTER BUTTONS --- */
+        .filter-container {
+            padding: 50px 8% 20px;
+            text-align: center;
+        }
+        .filter-btn {
+            background: transparent; border: 2px solid #333; color: var(--white);
+            padding: 10px 25px; margin: 5px; cursor: pointer;
+            font-weight: 600; text-transform: uppercase; transition: 0.3s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary); border-color: var(--primary);
+        }
+
+        /* --- CLASS GRID --- */
+        .classes-section { padding: 20px 8% 80px; }
+        .class-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;
+        }
+        
+        .class-item {
+            background: var(--dark); border-radius: 5px; overflow: hidden;
+            transition: 0.3s; position: relative;
+        }
+        .class-item.hide { display: none; } /* JS Hiding Class */
+        .class-item:hover { transform: translateY(-5px); }
+
+        .class-img { height: 200px; width: 100%; object-fit: cover; }
+        
+        .class-info { padding: 20px; }
+        .class-info h3 { font-family: 'Oswald', sans-serif; font-size: 1.5rem; margin-bottom: 10px; }
+        .class-meta { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 0.9rem; color: var(--gray); }
+        .class-meta i { color: var(--primary); margin-right: 5px; }
+        
+        .btn-book {
+            display: block; width: 100%; padding: 10px;
+            background: #333; color: var(--white); text-align: center; font-weight: 600;
+            transition: 0.3s; border: none; cursor: pointer;
+        }
+        .btn-book:hover { background: var(--primary); }
+
+        /* --- TIMETABLE SECTION --- */
+        .timetable-section {
+            background-color: var(--dark); padding: 80px 8%;
+        }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-family: 'Oswald', sans-serif; font-size: 3rem; text-transform: uppercase; }
+        .section-title span { color: var(--primary); }
+
+        .table-responsive { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        
+        th, td {
+            border: 1px solid #333; padding: 20px; text-align: center;
+        }
+        th { background: var(--black); color: var(--primary); font-family: 'Oswald', sans-serif; font-size: 1.2rem; }
+        td { background: #252f38; font-size: 0.95rem; font-weight: 600; }
+        
+        td span.time { display: block; font-size: 0.8rem; color: var(--gray); margin-bottom: 5px; font-weight: 400; }
+        td:hover { background: #2f3b46; }
+
+        /* --- FOOTER --- */
+        footer { background: #000; padding: 30px; text-align: center; border-top: 1px solid #222; font-size: 0.9rem; color: var(--gray); }
+
+        /* Responsive */
+        @media(max-width: 768px) {
+            .page-banner h1 { font-size: 2.5rem; }
+            .nav-links { display: none; } /* Simplified for demo */
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Iron<span>Physique</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#" style="color: var(--primary);">Classes</a></li>
+            <li><a href="#">Trainers</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </header>
+
+    <div class="page-banner">
+        <p>FIND YOUR STRENGTH</p>
+        <h1>Our Classes</h1>
+    </div>
+
+    <div class="filter-container">
+        <button class="filter-btn active" onclick="filterClasses('all')">All</button>
+        <button class="filter-btn" onclick="filterClasses('strength')">Strength</button>
+        <button class="filter-btn" onclick="filterClasses('cardio')">Cardio</button>
+        <button class="filter-btn" onclick="filterClasses('yoga')">Mind & Body</button>
+    </div>
+
+    <section class="classes-section">
+        <div class="class-grid">
+            
+            <div class="class-item strength">
+                <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=600&auto=format" alt="Bodybuilding" class="class-img">
+                <div class="class-info">
+                    <h3>Heavy Lifting</h3>
+                    <div class="class-meta">
+                        <span><i class="fas fa-user"></i> John Doe</span>
+                        <span><i class="fas fa-clock"></i> 60 Min</span>
+                    </div>
+                    <p style="margin-bottom: 15px; color: #ccc; font-size: 0.9rem;">Focus on compound movements and hypertrophy.</p>
+                    <button class="btn-book">Join Session</button>
+                </div>
+            </div>
+
+            <div class="class-item cardio">
+                <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=600&auto=format" alt="HIIT" class="class-img">
+                <div class="class-info">
+                    <h3>HIIT Burn</h3>
+                    <div class="class-meta">
+                        <span><i class="fas fa-user"></i> Sarah Lee</span>
+                        <span><i class="fas fa-clock"></i> 45 Min</span>
+                    </div>
+                    <p style="margin-bottom: 15px; color: #ccc; font-size: 0.9rem;">High intensity interval training to shred fat.</p>
+                    <button class="btn-book">Join Session</button>
+                </div>
+            </div>
+
+            <div class="class-item yoga">
+                <img src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?q=80&w=600&auto=format" alt="Yoga" class="class-img">
+                <div class="class-info">
+                    <h3>Power Yoga</h3>
+                    <div class="class-meta">
+                        <span><i class="fas fa-user"></i> Emily R.</span>
+                        <span><i class="fas fa-clock"></i> 60 Min</span>
+                    </div>
+                    <p style="margin-bottom: 15px; color: #ccc; font-size: 0.9rem;">Improve flexibility and core strength.</p>
+                    <button class="btn-book">Join Session</button>
+                </div>
+            </div>
+
+            <div class="class-item strength">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600&auto=format" alt="Crossfit" class="class-img">
+                <div class="class-info">
+                    <h3>CrossFit</h3>
+                    <div class="class-meta">
+                        <span><i class="fas fa-user"></i> Mike Ross</span>
+                        <span><i class="fas fa-clock"></i> 50 Min</span>
+                    </div>
+                    <p style="margin-bottom: 15px; color: #ccc; font-size: 0.9rem;">Functional fitness at high intensity.</p>
+                    <button class="btn-book">Join Session</button>
+                </div>
+            </div>
+             <div class="class-item cardio">
+                <img src="https://images.unsplash.com/photo-1524594152303-9fd13543fe6e?q=80&w=600&auto=format" alt="Zumba" class="class-img">
+                <div class="class-info">
+                    <h3>Zumba Dance</h3>
+                    <div class="class-meta">
+                        <span><i class="fas fa-user"></i> Anita</span>
+                        <span><i class="fas fa-clock"></i> 45 Min</span>
+                    </div>
+                    <p style="margin-bottom: 15px; color: #ccc; font-size: 0.9rem;">Dance your way to fitness.</p>
+                    <button class="btn-book">Join Session</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="timetable-section">
+        <div class="section-title">
+            <h2>Weekly <span>Schedule</span></h2>
+        </div>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="color: var(--primary);">06:00 AM</td>
+                        <td><span class="time">Cardio</span>HIIT Burn</td>
+                        <td>-</td>
+                        <td><span class="time">Cardio</span>HIIT Burn</td>
+                        <td>-</td>
+                        <td><span class="time">Cardio</span>HIIT Burn</td>
+                    </tr>
+                    <tr>
+                        <td style="color: var(--primary);">08:00 AM</td>
+                        <td><span class="time">Mind</span>Yoga</td>
+                        <td><span class="time">Strength</span>Heavy Lifting</td>
+                        <td><span class="time">Mind</span>Yoga</td>
+                        <td><span class="time">Strength</span>Heavy Lifting</td>
+                        <td><span class="time">Mind</span>Yoga</td>
+                    </tr>
+                    <tr>
+                        <td style="color: var(--primary);">05:00 PM</td>
+                        <td>-</td>
+                        <td><span class="time">Dance</span>Zumba</td>
+                        <td>-</td>
+                        <td><span class="time">Dance</span>Zumba</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td style="color: var(--primary);">07:00 PM</td>
+                        <td><span class="time">Strength</span>CrossFit</td>
+                        <td><span class="time">Strength</span>Body Pump</td>
+                        <td><span class="time">Strength</span>CrossFit</td>
+                        <td><span class="time">Strength</span>Body Pump</td>
+                        <td><span class="time">Strength</span>CrossFit</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 IronPhysique Gym. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function filterClasses(category) {
+            // 1. Manage Active Button State
+            let buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // 2. Filter Logic
+            let items = document.querySelectorAll('.class-item');
+            
+            items.forEach(item => {
+                if(category === 'all') {
+                    item.classList.remove('hide');
+                } else {
+                    if(item.classList.contains(category)) {
+                        item.classList.remove('hide');
+                    } else {
+                        item.classList.add('hide');
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
